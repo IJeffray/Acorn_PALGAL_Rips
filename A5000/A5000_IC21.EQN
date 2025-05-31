@@ -1,0 +1,33 @@
+;$GALMODE MEDIUM
+
+chip A5000_IC21 GAL16V8A
+
+nc1=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /nc11=11 
+o12=12 f13=13 f14=14 o15=15 f16=16 f17=17 o18=18 o19=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+/o19 = /i2 * i8
+    + /i2 * /i3 * f16 * /f13
+    + /i2 * /i3 * i4 * i5 * i6 * /f13
+o19.oe = vcc
+/o18 = /i2 * /i3 * i4 * i5 * /f16 * /i6 * i7 * /f13
+o18.oe = vcc
+/f17 = /i4 * /i5 * /i8
+    + /f17 * /i8
+f17.oe = vcc
+/f16 = i4 * /f17 * /i8
+    + /f16 * /i8
+f16.oe = vcc
+/o15 = gnd
+o15.oe = gnd
+/f14 = gnd
+f14.oe = gnd
+/f13 = /f13 * i9
+    + /f14 * /i9
+f13.oe = vcc
+/o12 = gnd
+o12.oe = gnd

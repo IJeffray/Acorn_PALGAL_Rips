@@ -1,0 +1,38 @@
+;$GALMODE REGISTERED
+
+chip HeronGlue_IC7_0294,032_GAL16V8 GAL16V8
+
+CLK=1 i2=2 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /OE=11 rf12=12 
+f13=13 rf14=14 rf15=15 rf16=16 rf17=17 rf18=18 rf19=19 VCC=20 
+
+@ues 0000000000000000
+@ptd unused
+
+equations
+
+/rf19 := vcc
+rf19.oe = OE
+/rf18 := vcc
+    + i2 * /i2 * rf19 * /rf19 * rf18 * /rf18 * i4 * /i4 * rf17 * /rf17
+      * i5 * /i5 * rf16 * /rf16 * i6 * /i6 * rf15 * /rf15 * rf14 * /rf14
+      * i8 * /i8 * f13 * /f13 * i9 * /i9 * rf12 * /rf12
+rf18.oe = OE
+/rf17 := gnd
+rf17.oe = OE
+/rf16 := i6 * /i6 * rf15 * /rf15 * i7 * /i7 * rf14 * /rf14 * i8 * /i8 * f13
+      * /f13 * i9 * /i9 * rf12 * /rf12
+    + vcc
+rf16.oe = OE
+/rf15 := i6 * /i6 * rf15 * /rf15 * i7 * /i7 * rf14 * /rf14 * i8 * /i8 * f13
+      * /f13 * i9 * /i9 * rf12 * /rf12
+    + vcc
+rf15.oe = OE
+/rf14 := i6 * /i6 * rf15 * /rf15 * i7 * /i7 * rf14 * /rf14 * i8 * /i8 * f13
+      * /f13 * i9 * /i9 * rf12 * /rf12
+    + vcc
+rf14.oe = OE
+/f13 = i6 * /i6 * rf15 * /rf15 * i7 * /i7 * rf14 * /rf14 * i8 * /i8 * f13
+      * /f13 * i9 * /i9 * rf12 * /rf12
+f13.oe = vcc
+/rf12 := vcc
+rf12.oe = OE

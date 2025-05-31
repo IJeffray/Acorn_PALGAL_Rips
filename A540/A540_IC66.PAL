@@ -1,0 +1,74 @@
+;$GALMODE REGISTERED
+
+chip A540_IC66 GAL16V8A
+
+CLK=1 FCLK2=2 FIORQ=3 SDONE=4 CLK24=5 RST=9 GND=10 /OE=11 F12=12 F13=13 FIOGT=14 FCYC=15 F16=16 F17=17 F18=18 REF8M=19 VCC=20 
+
+@ues 0000000000000000
+@ptd unused
+
+equations
+
+; CLK and FCLK2 are 'RefW' 12MHz clock from MEMC
+
+; FIORQ is IORQ frpm MEMC
+
+; SDONE is SDONE output from IC21
+
+; CLK24 is System 24MHz clock
+
+; F6 (pin6) not mentioned is from IC21 S17 (which just drives it GND)
+
+; F7 (pin7) not mentioned is from IC21 SFCYC
+
+; F8 (pin8) not mentioned is from IC21 SCYC
+
+; RST is active-low master MRESET
+
+
+; output 8MHz clock to podules, IOC, IC21 PAL
+/REF8M = F18 * CLK24 * F12
+         + /REF8M * F12
+         + /F18 * F12
+         + /REF8M * /F18 * CLK24
+REF8M.oe = vcc
+
+; Not connected
+/F18 = /REF8M * /CLK24 * F12
+       + /REF8M * /F18
+       + /REF8M * /F12
+       + /F18 * /CLK24 * /F12
+F18.oe = vcc
+
+; Not connected
+/F17 := gnd
+F17.oe = OE
+
+; Not connected
+/F16 := /SDONE
+        + /F16 * /FCYC
+F16.oe = OE
+
+; Feeds IC21 FCYC
+/FCYC := /FIORQ * F16 * FCYC * FIOGT * RST
+       + /FCYC * FIOGT * RST
+       + FIORQ * /FCYC * RST
+FCYC.oe = OE
+
+; To MEMC IOGT input (1K pull-up)
+/FIOGT = /F16 * /FCYC * /FIOGT * RST
+         + FCLK2 * /FIOGT
+         + /FCLK2 * /F16 * /FCYC * RST
+FIOGT.oe = vcc
+
+; Feeds IC21 S7
+/F13 = /FIORQ * F16 * FIOGT * RST
+       + F16 * /F13 * RST
+F13.oe = vcc
+
+; Feeds IC21 S8 which doesn't appear to use it!
+/F12 = /REF8M * /F18 * CLK24
+       + /F18 * /F12
+       + REF8M * /F18
+       + REF8M * CLK24 * /F12
+F12.oe = vcc

@@ -1,0 +1,46 @@
+;$GALMODE MEDIUM
+
+chip A5000_IC21 GAL16V8A
+
+;nc1=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /nc11=11 
+;o12=12 f13=13 f14=14 o15=15 f16=16 f17=17 o18=18 o19=19 VCC=20 
+
+nc1=1 Testak=2 nRomcs=3 LA25=4 LA24=5 LA23=6 LA22=7 RstB=8 Phi2=9 GND=10 /nc11=11 
+o12=12 LnRW=13 nRW=14 o15=15 nRs1=16 nRs0=17 nRcs1=18 nRcs0=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+; OS ROM(s) chip select
+
+/nRcs0 = /Testak * RstB
+       + /Testak * /nRomcs * nRs1 * /LnRW
+       + /Testak * /nRomcs * LA25 * LA24 * LA23 * /LnRW
+nRcs0.oe = vcc
+
+; Extension ROM chip select
+
+/nRcs1 = /Testak * /nRomcs * LA25 * LA24 * /nRs1 * /LA23 * LA22 * /LnRW
+nRcs1.oe = vcc
+
+; unused output
+/nRs0 = /LA25 * /LA24 * /RstB + /nRs0 * /RstB
+nRs0.oe = vcc
+
+; unused output (used internally)
+/nRs1 = LA25 * /nRs0 * /RstB + /nRs1 * /RstB
+nRs1.oe = vcc
+
+/o15 = gnd
+o15.oe = gnd
+
+/nRW = gnd
+nRW.oe = gnd
+
+/LnRW = /LnRW * Phi2 + /nRW * /Phi2
+LnRW.oe = vcc
+
+/o12 = gnd
+o12.oe = gnd

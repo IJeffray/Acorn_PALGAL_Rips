@@ -1,0 +1,43 @@
+;$GALMODE MEDIUM
+
+chip A5000_IC22 GAL16V8A
+
+;i1=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 GND=10 /i11=11 o12=12 
+;f13=13 o14=14 o15=15 o16=16 o17=17 o18=18 o19=19 VCC=20 
+
+nRST=1 LA13=2 LA14=3 LA15=4 LA16=5 LA17=6 LA18=7 nADT=8 GND=10 /LA21=11 NC_12=12 
+NC_InvTC=13 nPCio=14 Tc=15 nDack=16 Aen=17 nLCD=18 NC_19_MMLA21wire=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+/NC_19_MMLA21wire = /LA16 * /LA17 * LA21
+NC_19_MMLA21wire.oe = vcc
+
+/nLCD = nRST * LA14 * LA15 * /LA16 * LA17 * /LA18 * LA21
+nLCD.oe = vcc
+
+/Aen = /LA13 * nRST * /LA14 * /LA15 * LA16 * /LA17 * /LA18 * /nADT * LA21
+Aen.oe = vcc
+
+/nDack = nRST *  LA13 *  LA16 * /LA17 * /LA18 * /nADT * LA21
+       + nRST *  LA14 *  LA16 * /LA17 * /LA18 * /nADT * LA21
+       + nRST *  LA15 *  LA16 * /LA17 * /LA18 * /nADT * LA21
+       + nRST * /LA15 * /LA16 *  LA17 * /LA18 * /nADT * LA21
+       + nRST * /LA14 * /LA16 *  LA17 * /LA18 * /nADT * LA21
+nDack.oe = vcc
+
+/Tc = /nRST + NC_InvTC
+Tc.oe = vcc
+
+/nPCio = nRST * LA16 * /LA17 * /LA18 * LA21
+       + nRST * /LA16 * LA17 * /LA18 * LA21
+nPCio.oe = vcc
+
+/NC_InvTC = LA13 * nRST * /LA14 * LA15 * /LA16 * LA17 * /LA18 * /nADT * LA21
+NC_InvTC.oe = vcc
+
+/NC_12 = gnd
+NC_12.oe = gnd

@@ -1,0 +1,43 @@
+;$GALMODE REGISTERED
+
+chip A540_IC66 GAL16V8A
+
+CLK=1 i2=2 i3=3 i4=4 i5=5 i9=9 GND=10 /OE=11 f12=12 f13=13 f14=14 
+rf15=15 rf16=16 ro17=17 f18=18 f19=19 VCC=20 
+
+@ues 0000000000000000
+@ptd unused
+
+equations
+
+/f19 = f18 * i5 * f12
+    + /f19 * f12
+    + /f18 * f12
+    + /f19 * /f18 * i5
+f19.oe = vcc
+/f18 = /f19 * /i5 * f12
+    + /f19 * /f18
+    + /f19 * /f12
+    + /f18 * /i5 * /f12
+f18.oe = vcc
+/ro17 := gnd
+ro17.oe = OE
+/rf16 := /i4
+    + /rf16 * /rf15
+rf16.oe = OE
+/rf15 := /i3 * rf16 * rf15 * f14 * i9
+    + /rf15 * f14 * i9
+    + i3 * /rf15 * i9
+rf15.oe = OE
+/f14 = /rf16 * /rf15 * /f14 * i9
+    + i2 * /f14
+    + /i2 * /rf16 * /rf15 * i9
+f14.oe = vcc
+/f13 = /i3 * rf16 * f14 * i9
+    + rf16 * /f13 * i9
+f13.oe = vcc
+/f12 = /f19 * /f18 * i5
+    + /f18 * /f12
+    + f19 * /f18
+    + f19 * i5 * /f12
+f12.oe = vcc

@@ -1,0 +1,38 @@
+;$GALMODE REGISTERED
+
+chip HeronGlue_IC7_0294,032_GAL16V8 GAL16V8
+
+CLK=1 LA21=2 LA14=4 nS4=5 i6=6 nHI=7 NC8=8 NC9=9 GND=10 /OE=11 CSync=12 
+NC13=13 NC14=14 NC15=15 NC16=16 NC17=17 Ps=18 NC19=19 VCC=20 
+
+@ues 0000000000000000
+@ptd unused
+
+equations
+
+/NC19 := vcc
+NC19.oe = OE
+/Ps := vcc
+    + LA21 * /LA21 * NC19 * /NC19 * Ps * /Ps * LA14 * /LA14 * NC17 * /NC17
+      * nS4 * /nS4 * NC16 * /NC16 * i6 * /i6 * NC15 * /NC15 * NC14 * /NC14
+      * NC8 * /NC8 * NC13 * /NC13 * NC9 * /NC9 * CSync * /CSync
+Ps.oe = OE
+/NC17 := gnd
+NC17.oe = OE
+/NC16 := i6 * /i6 * NC15 * /NC15 * nHI * /nHI * NC14 * /NC14 * NC8 * /NC8 * NC13
+      * /NC13 * NC9 * /NC9 * CSync * /CSync
+    + vcc
+NC16.oe = OE
+/NC15 := i6 * /i6 * NC15 * /NC15 * nHI * /nHI * NC14 * /NC14 * NC8 * /NC8 * NC13
+      * /NC13 * NC9 * /NC9 * CSync * /CSync
+    + vcc
+NC15.oe = OE
+/NC14 := i6 * /i6 * NC15 * /NC15 * nHI * /nHI * NC14 * /NC14 * NC8 * /NC8 * NC13
+      * /NC13 * NC9 * /NC9 * CSync * /CSync
+    + vcc
+NC14.oe = OE
+/NC13 = i6 * /i6 * NC15 * /NC15 * nHI * /nHI * NC14 * /NC14 * NC8 * /NC8 * NC13
+      * /NC13 * NC9 * /NC9 * CSync * /CSync
+NC13.oe = vcc
+/CSync := vcc
+CSync.oe = OE

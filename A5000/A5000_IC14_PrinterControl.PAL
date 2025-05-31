@@ -1,0 +1,46 @@
+;$GALMODE REGISTERED
+
+chip A5000_IC14 GAL16V8A
+
+;CLK=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /OE=11 o12=12 
+;f13=13 ro14=14 ro15=15 ro16=16 ro17=17 o18=18 o19=19 VCC=20 
+
+Wrclk=1 Gpcs=2 nIow=3 nRst=4 BD5=5 BD3=6 BD2=7 BD1=8 BD0=9 GND=10 /OE=11 o12=12 
+Dir=13 Strobe=14 Autofd=15 Init=16 Slctin=17 o18=18 Wrstb=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+; /WRSTB feeds the chip clock input, Wrclk
+/Wrstb = /Gpcs * /nIow * nRst
+Wrstb.oe = vcc
+
+; unused pin
+/o18 = gnd
+o18.oe = gnd
+
+; The four printer-port output pins are just direct/inverse copies of the BD0..BD3
+
+/Slctin := BD3
+Slctin.oe = OE
+
+/Init := /BD2
+Init.oe = OE
+
+/Autofd := BD1
+Autofd.oe = OE
+
+/Strobe := BD0
+Strobe.oe = OE
+
+; /DIR fees the chip /OE, pin 11.
+/Dir = /Gpcs * /nIow * nRst * BD5
+      + Gpcs *         nRst * /Dir
+      +         nIow * nRst * /Dir
+Dir.oe = vcc
+
+; unused pin
+/o12 = gnd
+o12.oe = gnd

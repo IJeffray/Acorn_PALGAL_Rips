@@ -1,0 +1,38 @@
+;$GALMODE MEDIUM
+
+chip A5000_IC38 GAL16V8A
+
+;i1=1 i2=2 i3=3 i4=4 GND=10 /nc11=11 o12=12 o13=13 o14=14 o15=15 
+;o16=16 o17=17 o18=18 o19=19 VCC=20 
+
+MTR0=1 MTR1=2 DRV0=3 DRV1=4 GND=10 /nc11=11 o12=12 o13=13
+SEL3=14 SEL2=15 SEL1=16 SEL0=17 INUSE=18 MTRON=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+/MTRON = MTR1 * MTR0
+MTRON.oe = vcc
+
+/INUSE = gnd
+INUSE.oe = gnd
+
+/SEL0 =  DRV0 + /DRV1 +  MTR0 + /MTR1
+SEL0.oe = vcc
+
+/SEL1 = /DRV0 +  DRV1 + /MTR0 +  MTR1
+SEL1.oe = vcc
+
+/SEL2 = /DRV0 + /DRV1 + /MTR0 +  MTR1
+SEL2.oe = vcc
+
+/SEL3 = /DRV0 + /DRV1 +  MTR0 +  MTR1
+SEL3.oe = vcc
+
+/o13 = gnd
+o13.oe = gnd
+
+/o12 = gnd
+o12.oe = gnd

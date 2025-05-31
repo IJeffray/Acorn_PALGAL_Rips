@@ -1,0 +1,30 @@
+;$GALMODE REGISTERED
+
+chip A5000_IC14 GAL16V8A
+
+CLK=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /OE=11 o12=12 
+f13=13 ro14=14 ro15=15 ro16=16 ro17=17 o18=18 o19=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+/o19 = /i2 * /i3 * i4
+o19.oe = vcc
+/o18 = gnd
+o18.oe = gnd
+/ro17 := i6
+ro17.oe = OE
+/ro16 := /i7
+ro16.oe = OE
+/ro15 := i8
+ro15.oe = OE
+/ro14 := i9
+ro14.oe = OE
+/f13 = /i2 * /i3 * i4 * i5
+    + i2 * i4 * /f13
+    + i3 * i4 * /f13
+f13.oe = vcc
+/o12 = gnd
+o12.oe = gnd

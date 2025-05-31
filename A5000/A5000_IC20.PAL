@@ -1,0 +1,54 @@
+;$GALMODE MEDIUM
+
+chip A5000_IC20 GAL16V8A
+
+;i1=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 GND=10 /i11=11 o12=12 
+;f13=13 f14=14 f15=15 f16=16 f17=17 f18=18 o19=19 VCC=20 
+
+nPwe=1 BD0=2 BD1=3 BD2=4 BD3=5 nS558=6 nS548=7 nRst=8 GND=10 /nPint=11 o12=12 
+nLdb2=13 Ldb0=14 Ldb1=15 nAckn_NC=16 nLdb3=17 nIntlp_NC=18 nLPintr=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+/nLPintr = vcc
+nLPintr.oe = /nIntlp_NC
+
+/nIntlp_NC = nAckn_NC * nRst * nPint
+    + /nIntlp_NC * nS558 * nRst
+nIntlp_NC.oe = vcc
+
+/nLdb3 = /nPwe * BD3 * /nS548 * nRst
+    + /nLdb3 * nS548 * nRst
+    + nPwe * /nLdb3 * nRst
+nLdb3.oe = vcc
+
+/nAckn_NC = /nIntlp_NC * nRst * nPint
+    + /nAckn_NC * nRst * nPint
+nAckn_NC.oe = vcc
+
+; VIDC clock mux select
+
+/Ldb1 = /nRst
+    + /nPwe * /BD1 * /nS548
+    + /Ldb1 * nS548
+    + nPwe * /Ldb1
+Ldb1.oe = vcc
+
+; VIDC clock mux select
+
+/Ldb0 = /nRst
+    + /BD0 * /nPwe * /nS548
+    + nS548 * /Ldb0
+    + nPwe * /Ldb0
+Ldb0.oe = vcc
+
+/nLdb2 = /nPwe * BD2 * /nS548 * nRst
+    + nS548 * nRst * /nLdb2
+    + nPwe * nRst * /nLdb2
+nLdb2.oe = vcc
+
+/o12 = gnd
+o12.oe = gnd

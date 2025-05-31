@@ -1,0 +1,38 @@
+;$GALMODE MEDIUM
+
+chip A5000_IC18 GAL16V8A
+
+;i1=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /i11=11 o12=12 
+;o13=13 o14=14 f15=15 o16=16 f17=17 o18=18 o19=19 VCC=20 
+
+nIo=1 nSpblr=2 nLcd=3 nPCBlw=4 nPCFiogt=5 nRst=6 nPCBlr=7 nSpblw=8 nFPIogt=9 GND=10 /LnRW=11 nIow=12 
+nWbl=13 nBl=14 nLFiogt_NC=15 nFiogt=16 nLBlr_NC=17 nLBlw_NC=18 nIor=19 VCC=20 
+
+@ues ffffffffffffffff
+@ptd unused
+
+equations
+
+/nIor = /nIo * nLcd * nRst * LnRW
+nIor.oe = vcc
+
+/nLBlw_NC = gnd
+nLBlw_NC.oe = gnd
+
+/nLBlr_NC = /nPCBlr + /nSpblr
+nLBlr_NC.oe = vcc
+
+/nFiogt = nRst * /nFPIogt + nRst * /nLFiogt_NC
+nFiogt.oe = vcc
+
+/nLFiogt_NC = /nPCFiogt
+nLFiogt_NC.oe = vcc
+
+/nBl = vcc
+nBl.oe = /nLBlr_NC * nRst
+
+/nWbl = /nPCBlw * nRst + nRst * /nSpblw
+nWbl.oe = vcc
+
+/nIow = /nIo * nLcd * nRst * /LnRW
+nIow.oe = vcc

@@ -1,0 +1,49 @@
+;$GALMODE REGISTERED
+
+chip A5000_IC24 GAL16V8A
+
+RefClk=1 Refclk2=2 nFiorq=3 nSDone=4 Clk24=5 nPCio=6 nRst=9 GND=10 /OE=11 IC25_S8=12 IC25_S7=13 
+nFPIogt=14 nFcyc=15 nFend=16 F17_NC=17 F18_NC=18 nRef8M_prebuf=19 VCC=20 
+
+@ues 0000000000000000
+@ptd unused
+
+equations
+
+/nRef8M_prebuf = F18_NC * Clk24 * IC25_S8
+              + /nRef8M_prebuf * IC25_S8
+              + /F18_NC * IC25_S8
+              + /nRef8M_prebuf * /F18_NC * Clk24
+nRef8M_prebuf.oe = vcc
+
+/F18_NC = /nRef8M_prebuf * /Clk24 * IC25_S8
+        + /nRef8M_prebuf * /F18_NC
+        + /nRef8M_prebuf * /IC25_S8
+                         + /F18_NC * /Clk24 * /IC25_S8
+F18_NC.oe = vcc
+
+/F17_NC := gnd
+F17_NC.oe = OE
+
+/nFend := /nSDone + /nFend * /nFcyc
+nFend.oe = OE
+
+/nFcyc := /nFiorq * nFend * nPCio * nFcyc * nFPIogt * nRst
+    + /nFcyc * nFPIogt * nRst
+    + nFiorq * /nFcyc * nRst
+nFcyc.oe = OE
+
+/nFPIogt = /nFend * /nFcyc * /nFPIogt * nRst
+    + Refclk2 * /nFPIogt
+    + /Refclk2 * /nFend * /nFcyc * nRst
+nFPIogt.oe = vcc
+
+/IC25_S7 = /nFiorq * nFend * nPCio * nFPIogt * nRst
+    + nFend * /IC25_S7 * nRst
+IC25_S7.oe = vcc
+
+/IC25_S8 = /nRef8M_prebuf * /F18_NC * Clk24
+         + /F18_NC * /IC25_S8
+         + nRef8M_prebuf * /F18_NC
+         + nRef8M_prebuf * Clk24 * /IC25_S8
+IC25_S8.oe = vcc
