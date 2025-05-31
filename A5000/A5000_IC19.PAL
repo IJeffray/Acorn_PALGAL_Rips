@@ -2,7 +2,7 @@
 
 chip A5000_IC19 GAL16V8A
 
-nS5=1 nRst=2 LA2=3 LA3=4 LA4=5 LA5=6 LA6=7 LnRW=8 VidID1=9 GND=10 /VidID2=11 nS548=12 
+nRst=1 nS5=2 LA2=3 LA3=4 LA4=5 LA5=6 LA6=7 LnRW=8 VidID1=9 GND=10 /VidID2=11 nS548=12 
 VidID0=13 nBusen_NC=14 BD3=15 BD2=16 BD1=17 BD0=18 nS558=19 VCC=20 
 
 @ues ffffffffffffffff
@@ -10,26 +10,26 @@ VidID0=13 nBusen_NC=14 BD3=15 BD2=16 BD1=17 BD0=18 nS558=19 VCC=20
 
 equations
 
-/nS548 = /nRst * nS5 * /LA2 * LA3 * /LA4 * /LA5 * LA6
+/nS548 = /nS5 * nRst * /LA2 * LA3 * /LA4 * /LA5 * LA6
 nS548.oe = vcc
 
-/nS558 = /nRst * nS5 * /LA2 * LA3 * LA4 * /LA5 * LA6
+/nS558 = /nS5 * nRst * /LA2 * LA3 * LA4 * /LA5 * LA6
 nS558.oe = vcc
 
-/BD0 = /nRst * /LA2 * /LA3 * LA4 * LA5 * LA6 * /LnRW * /VidID0
-BD0.oe = nS5 * /nBusen_NC
+/BD0 = /nS5 * /LA2 * /LA3 * LA4 * LA5 * LA6 * /LnRW * /VidID0
+BD0.oe = nRst * /nBusen_NC
 
-/BD1 = /nRst * /LA2 * /LA3 * LA4 *        LA6 * /LnRW * /VidID1
-     + /nRst * /LA2 * /LA3 * LA4 * /LA5 * LA6 * /LnRW
-BD1.oe = nS5 * /nBusen_NC
+/BD1 = /nS5 * /LA2 * /LA3 * LA4 * LA6 * /LnRW * /VidID1
+    + /nS5 * /LA2 * /LA3 * LA4 * /LA5 * LA6 * /LnRW
+BD1.oe = nRst * /nBusen_NC
 
-/BD2 = /nRst * /LA2 * /LA3 * LA4 * LA5 * LA6 * /LnRW * VidID2
-BD2.oe = nS5 * /nBusen_NC
+/BD2 = /nS5 * /LA2 * /LA3 * LA4 * LA5 * LA6 * /LnRW * VidID2
+BD2.oe = nRst * /nBusen_NC
 
-/BD3 = /nRst * /LA2 * /LA3 * LA4 *       LA6 * /LnRW
-BD3.oe = nS5 * /nBusen_NC
+/BD3 = /nS5 * /LA2 * /LA3 * LA4 * LA6 * /LnRW
+BD3.oe = nRst * /nBusen_NC
 
-/nBusen_NC = /nRst * /LA2 * /LA3 * LA4 * LA6 * /LnRW
+/nBusen_NC = /nS5 * /LA2 * /LA3 * LA4 * LA6 * /LnRW
 nBusen_NC.oe = vcc
 
 /VidID0 = gnd
