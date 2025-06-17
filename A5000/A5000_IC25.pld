@@ -1,0 +1,58 @@
+PartNo 00000000;
+Date 13/06/2025;
+Revision 01;    
+Designer None;  
+Company None;   
+Assembly None;  
+Location IC25;  
+Device g22v10;
+Name A5000_IC25;
+
+/* Inputs: */
+Pin 1 = SCLK1;
+Pin 2 = SCLK2;
+Pin 3 = FIORQ;
+Pin 4 = SIOGT;
+Pin 5 = FCYC;
+Pin 6 = LnRW;
+Pin 7 = S7;
+Pin 8 = S8;
+Pin 9 = Reset;
+Pin 10 = PCIO;  /* */
+Pin 11 = CLK24;  /* 24 Mhz Clock */
+Pin 13 = Fend; /* */
+
+/* Outputs: */
+Pin 14 = SIORQ;
+Pin 15 = RBE;
+Pin 16 = SFCYC;
+Pin 17 = SCYC;
+Pin 18 = SDONE;
+Pin 19 = S17;
+Pin 20 = BLR;
+Pin 21 = BLW;
+Pin 22 = B12M;  /* */
+Pin 23 = A12M;  /* */
+
+/* Equations: */
+_AR = 'b'0;
+_SP = 'b'0;
+
+!BLW = (!FCYC & LnRW);
+!BLR = (SIORQ & !LnRW);
+!SDONE.D = (!SIOGT & !S7 & Reset & !SIORQ) # (!SDONE & !S7 & Reset);
+SDONE.OE = 'b'1;
+SDONE.AR = _AR;
+SDONE.SP = _SP;
+!SCYC.D = (SDONE & !S7 & !SFCYC & Reset);
+SCYC.OE = 'b'1;
+SCYC.AR = _AR;
+SCYC.SP = _SP;
+!SFCYC.D = (SDONE & !S7 & Reset);
+SFCYC.OE = 'b'1;
+SFCYC.AR = _AR;
+SFCYC.SP = _SP;
+!RBE = (!FIORQ & !LnRW);
+!SIORQ = (SDONE & !SCYC & !S7) # (SCLK2 & !SIORQ) # (SDONE & Reset & !SIORQ);
+A12M = (CLK24 & !B12M) # (!CLK24 & A12M);
+B12M = (CLK24 & B12M) # (!CLK24 & A12M);
