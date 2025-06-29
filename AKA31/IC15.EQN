@@ -1,0 +1,29 @@
+;$GALMODE MEDIUM
+
+chip IC15 GAL16V8
+
+nc1=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 GND=10 /nc11=11 
+o12=12 f13=13 f14=14 f15=15 o16=16 f17=17 f18=18 o19=19 VCC=20 
+
+@ues 0000000000000000
+@ptd unused
+
+equations
+
+o19 = vcc
+o19.oe = i3 * f14
+f18 = gnd
+f18.oe = gnd
+f17 = gnd
+f17.oe = /i5
+o16 = gnd
+o16.oe = vcc
+f15 = /i2 * i4
+    + f13
+f15.oe = i4 * /f15
+f14 = /i3
+f14.oe = /f17 * /f15
+f13 = f18 * /i8 * i9
+f13.oe = vcc
+o12 = /i6 * /i7
+o12.oe = vcc
